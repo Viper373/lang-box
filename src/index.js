@@ -178,7 +178,13 @@ async function updateReadme(api, repoName, path = "README.md", content) {
     // 更新README
     const repoName = `${USERNAME}/${USERNAME}`;
     const readmePath = "README.md";
-    const readmeContent = "💻 Recent coding in languages\n\n" + content;
+    const gistUrl = "https://gist.github.com/f12b1909e28c47d7343c80b9590fe61c";
+    const readmeContent =
+      `#### <a href="${gistUrl}" target="_blank">💻 Recent coding in languages</a>\n` +
+      "```text\n" +
+      content +
+      "\n```\n" +
+      "<!-- Powered by https://github.com/Viper373/lang-box . -->";
     await updateReadme(api, repoName, readmePath, readmeContent);
   } catch (e) {
     console.error(e);
