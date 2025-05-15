@@ -1,0 +1,61 @@
+name: Update Lang Box Stats
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  Update-Lang-Box-Stats:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: 检出个人资料仓库
+        uses: actions/checkout@v3
+        with:
+          path: profile-repo
+          fetch-depth: 1
+
+      - name: 检出lang-box仓库
+        uses: actions/checkout@v3
+        with:
+          repository: inokawa/lang-box
+          path: lang-box
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+          cache: "npm"
+          cache-dependency-path: lang-box/package-lock.json
+
+      - name: 安装依赖
+        working-directory: lang-box
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake pkg-config libicu-dev zlib1g-dev libcurl4-openssl-dev libssl-dev ruby-dev
+          sudo gem install github-linguist
+          npm install
+
+      - name: 运行语言统计
+        working-directory: lang-box
+        run: npm start
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GIST_ID: f12b1909e28c47d7343c80b9590fe61c
+          USERNAME: ${{ github.actor }}
+          
+      - name: 提交更新的README
+        working-directory: profile-repo
+        run: |
+          git config --global user.name "LangBot"
+          git config --global user.email "bot@github.com"
+          git add README.md
+          git commit -m "更新语言使用统计 [自动]" || echo "无需提交更新"
+          git pull && git push
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
