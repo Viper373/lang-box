@@ -175,14 +175,10 @@ async function updateReadme(api, repoName, path = "README.md", content) {
     });
     console.log(`更新Gist成功.`);
 
-    // 更新README（如果配置了）
-    if (README_REPO) {
-      const readmePath = README_PATH || "README.md";
-      const readmeMarker = README_MARKER || "LANGUAGE_STATS";
-      const repoName = README_REPO.includes("/") ? README_REPO : `${USERNAME}/${README_REPO}`;
-      
-      await updateReadme(api, repoName, readmePath, readmeMarker, content);
-    }
+    // 更新README
+    const repoName = `${USERNAME}/${USERNAME}`;
+    const readmePath = "README.md";
+    await updateReadme(api, repoName, readmePath, content);
   } catch (e) {
     console.error(e);
     process.exitCode = 1;

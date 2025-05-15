@@ -22,7 +22,7 @@ jobs:
       - name: 检出lang-box仓库
         uses: actions/checkout@v3
         with:
-          repository: inokawa/lang-box
+          repository: Viper373/lang-box
           path: lang-box
           fetch-depth: 1
 
