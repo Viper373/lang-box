@@ -34,9 +34,15 @@ const generateBarChart = (percent, size) => {
     .padEnd(size, syms.substring(0, 1));
 };
 
+/**
+ * 生成语言统计内容，只显示前5项
+ *
+ * @param {Array} languages - 语言统计数组
+ * @return {string} - 格式化后的内容
+ */
 export const createContent = (languages) => {
   const lines = [];
-  for (let i = 0; i < languages.length; i++) {
+  for (let i = 0; i < Math.min(5, languages.length); i++) {
     const data = languages[i];
     const { name, percent, additions, deletions } = data;
 
