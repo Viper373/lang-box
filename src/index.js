@@ -37,7 +37,7 @@ async function updateReadme(api, repoName, path = "README.md", content) {
     // 替换内容
     const newContent = 
       originalContent.substring(0, startIndex + startMarker.length) + 
-      "\n```\n" + content + "\n```\n" + 
+      "\n" + content + "\n" + 
       originalContent.substring(endIndex);
     
     // 提交更新
